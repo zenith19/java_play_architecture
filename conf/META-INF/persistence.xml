@@ -4,10 +4,12 @@
              version="2.0">
     <persistence-unit name="cassandra_pu">
         <provider>com.impetus.kundera.KunderaPersistence</provider>
+        <class>models.User</class>
+        <class>models.Product</class>
         <properties>
             <property name="kundera.nodes" value="localhost"/>
             <property name="kundera.port" value="9042"/>
-            <property name="kundera.keyspace" value="java-play"/>
+            <property name="kundera.keyspace" value="java_play"/>
             <property name="kundera.dialect" value="cassandra"/>
             <property name="kundera.client.lookup.class" value="com.impetus.kundera.client.cassandra.dsdriver.DSClientFactory" />
         </properties>

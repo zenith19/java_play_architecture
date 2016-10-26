@@ -1,1 +1,4 @@
 deleteSuccess = "Successfully deleted"
+invalidUser = "Invalid User"
+emptyProductName = "Please enter Product name"
+invalidProductPrice = "Price should be > 0 and < 9999999"

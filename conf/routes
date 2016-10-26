@@ -14,13 +14,11 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 POST    /registration               controllers.UserController.registration
 
-POST    /createProduct/             controllers.ProductController.create
-
+POST    /createProduct              controllers.ProductController.create
 PUT     /updateProduct/:id          controllers.ProductController.update(id: String)
-
 DELETE  /deleteProduct/:id          controllers.ProductController.delete(id: String)
-
 GET     /getProduct/:id             controllers.ProductController.get(id: String)
+GET     /getAllProduct              controllers.ProductController.getAll
 
 POST    /login                      controllers.SessionController.login
 DELETE  /logout                     controllers.SessionController.logout

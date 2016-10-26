@@ -31,14 +31,11 @@ public class SessionDao extends BaseDao{
         return ok("Successfully Logout");
     }
 
-    public Session getSession(String authToken) throws Exception{
+    public Session getSession(String authToken) {
         EntityManager entityManager = getEmf().createEntityManager();
         Session session = entityManager.find(Session.class, authToken);
+        entityManager.close();
 
-        if (session == null || !session.getAuthToken().equals(authToken)) {
-            throw new Exception("Invalid Session");
-        } else {
-            return session;
-        }
+        return session;
     }
 }

@@ -22,4 +22,5 @@ target
 /.settings
 /RUNNING_PID
 .gitignore
+myEntities.jar
 

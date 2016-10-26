@@ -43,11 +43,7 @@ public class User {
         this.password = password;
     }
 
-    public String getAuthToken() {
-        return authToken;
-    }
+    public String getAuthToken() { return authToken; }
 
-    public void setAuthToken(String authToken) {
-        this.authToken = authToken;
-    }
+    public void setAuthToken(String authToken) { this.authToken = authToken; }
 }

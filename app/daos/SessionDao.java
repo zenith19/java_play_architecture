@@ -2,11 +2,9 @@ package daos;
 
 import com.google.inject.Singleton;
 import models.Session;
-import play.mvc.Result;
+import models.User;
 
 import javax.persistence.EntityManager;
-
-import static play.mvc.Results.ok;
 
 
 /**
@@ -23,12 +21,18 @@ public class SessionDao extends BaseDao{
         return session.getAuthToken();
     }
 
-    public Result logout(Session session){
+    public void logout(Session session){
         EntityManager entityManager = getEmf().createEntityManager();
         entityManager.remove(session);
         entityManager.close();
+    }
 
-        return ok("Successfully Logout");
+    public User getUser(String email){
+        EntityManager entityManager = getEmf().createEntityManager();
+        User user = entityManager.find(User.class, email);
+        entityManager.close();
+
+        return user;
     }
 
     public Session getSession(String authToken) {

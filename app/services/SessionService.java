@@ -7,7 +7,6 @@ import daos.SessionDao;
 import models.Session;
 import models.User;
 import play.libs.Json;
-import play.mvc.Result;
 
 /**
  * Created by zenith on 10/26/16.
@@ -21,25 +20,28 @@ public class SessionService {
         this.sessionDao = sessionDao;
     }
 
-    public String login(JsonNode jsonNode) throws Exception{
-        User user = Json.fromJson(jsonNode, User.class);
+    public JsonNode login(JsonNode jsonNode){
+        User tempUserVar = Json.fromJson(jsonNode, User.class);
+        User user = sessionDao.getUser(tempUserVar.getEmail());
+
+        if (user == null || !user.getPassword().equals(tempUserVar.getPassword())) {
+            return null;
+        }
         String authToken = user.getEmail()+user.getPassword();
         Session session = new Session();
         session.setEmail(user.getEmail());
         session.setAuthToken(authToken);
         sessionDao.login(session);
 
-        return session.getAuthToken();
+        return Json.toJson(session.getAuthToken());
     }
 
-    public Result logout(String authToken){
-        Session session = null;
-        try {
-            session = sessionDao.getSession(authToken);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void logout(String authToken) throws Exception{
+        Session session = sessionDao.getSession(authToken);
+        if (session == null) {
+            throw new Exception();
         }
-        return sessionDao.logout(session);
+        sessionDao.logout(session);
     }
 
     public Session authenticate(String authToken) {

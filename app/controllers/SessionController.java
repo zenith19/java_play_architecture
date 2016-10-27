@@ -4,10 +4,13 @@ import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import play.i18n.MessagesApi;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Results;
 import services.SessionService;
 
 import java.util.concurrent.CompletableFuture;
@@ -20,36 +23,47 @@ import java.util.concurrent.Executor;
 @Singleton
 public class SessionController extends Controller {
     private SessionService sessionService;
+    private final MessagesApi messagesApi;
 
     @Inject
-    public SessionController(SessionService sessionService) {
+    public SessionController(SessionService sessionService, MessagesApi messagesApi) {
         this.sessionService = sessionService;
+        this.messagesApi = messagesApi;
     }
 
     @Inject
     ActorSystem akka;
 
-    public CompletionStage<Result> login() throws Exception{
+    public CompletionStage<Result> login() {
         Executor myExecutor = akka.dispatchers().lookup("my-context");
+        play.i18n.Lang lang = Http.Context.current().lang();
 
         return CompletableFuture.supplyAsync(()->{
             JsonNode json = request().body().asJson();
-            String authToken = null;
-            try {
-                authToken = sessionService.login(json);
-            } catch (Exception e) {
-                e.printStackTrace();
+            JsonNode authToken = null;
+            authToken = sessionService.login(json);
+            if (authToken == null) {
+                return Results.badRequest(messagesApi.get(lang,"sessionInvalid"));
+            }else {
+                return ok(authToken);
             }
-            JsonNode jsonNode = Json.toJson(authToken);
-            return ok(jsonNode);
         }, new HttpExecutionContext(myExecutor).current());
     }
 
-    public CompletionStage<Result> logout() throws Exception{
+    public CompletionStage<Result> logout() {
         Executor myExecutor = akka.dispatchers().lookup("my-context");
+        play.i18n.Lang lang = Http.Context.current().lang();
+
         return CompletableFuture.supplyAsync(()->{
             String authToken = request().getHeader("Authorization");
-            return sessionService.logout(authToken);
+            JsonNode jsonNode = null;
+            try {
+                sessionService.logout(authToken);
+                jsonNode = Json.toJson(messagesApi.get(lang, "logout"));
+            } catch (Exception e) {
+                jsonNode = Json.toJson(messagesApi.get(lang, "logoutError"));
+            }
+            return ok(jsonNode);
         }, new HttpExecutionContext(myExecutor).current());
     }
 }

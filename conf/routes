@@ -12,13 +12,13 @@ GET     /message                    controllers.AsyncController.message
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
-POST    /registration               controllers.UserController.registration
-
 POST    /createProduct              controllers.ProductController.create
 PUT     /updateProduct/:id          controllers.ProductController.update(id: String)
 DELETE  /deleteProduct/:id          controllers.ProductController.delete(id: String)
 GET     /getProduct/:id             controllers.ProductController.get(id: String)
 GET     /getAllProduct              controllers.ProductController.getAll
+
+POST    /registration               controllers.UserController.registration
 
 POST    /login                      controllers.SessionController.login
 DELETE  /logout                     controllers.SessionController.logout

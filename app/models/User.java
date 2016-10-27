@@ -1,20 +1,30 @@
 package models;
 
-import javax.persistence.Column;
+import org.hibernate.validator.constraints.Length;
+import play.data.validation.Constraints;
+import play.data.validation.Constraints.*;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by rownak on 10/25/16.
  */
-
 @Entity
 @Table(name = "users", schema = "java_play@cassandra_pu")
 public class User {
     @Id
+    @Email
+    @Required(message = "Invalid Email format")
     private String email;
+    @NotNull
+    @Required(message = "Name can't be blank")
     private String name;
+    @NotNull
+    @Length(min = 6)
+    @Required(message = "Password minimum length 6")
     private String password;
 
     public String getEmail() {

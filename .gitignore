@@ -2,7 +2,6 @@
 bin/
 /db
 .eclipse
-/lib/
 /logs/
 /modules
 /project/target
@@ -22,5 +21,4 @@ target
 /.settings
 /RUNNING_PID
 .gitignore
-myEntities.jar
 

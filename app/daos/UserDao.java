@@ -29,12 +29,4 @@ public class UserDao {
 
         return Json.toJson(user);
     }
-
-    public String login(String email, String password){
-        EntityManager em = getEmf().createEntityManager();
-        User user = em.find(User.class, email);
-        em.close();
-
-        return user.getAuthToken();
-    }
 }

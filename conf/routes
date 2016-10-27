@@ -13,7 +13,6 @@ GET     /message                    controllers.AsyncController.message
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 POST    /registration               controllers.UserController.registration
-POST    /login                      controllers.UserController.login
 
 POST    /createProduct/             controllers.ProductController.create
 
@@ -22,3 +21,6 @@ PUT     /updateProduct/:id          controllers.ProductController.update(id: Str
 DELETE  /deleteProduct/:id          controllers.ProductController.delete(id: String)
 
 GET     /getProduct/:id             controllers.ProductController.get(id: String)
+
+POST    /login                      controllers.SessionController.login
+DELETE  /logout                     controllers.SessionController.logout

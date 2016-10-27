@@ -16,8 +16,6 @@ public class User {
     private String email;
     private String name;
     private String password;
-    @Column(name = "auth_token")
-    private String authToken;
 
     public String getEmail() {
         return email;
@@ -42,8 +40,4 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getAuthToken() { return authToken; }
-
-    public void setAuthToken(String authToken) { this.authToken = authToken; }
 }

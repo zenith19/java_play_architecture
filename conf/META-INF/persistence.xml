@@ -4,9 +4,7 @@
              version="2.0">
     <persistence-unit name="cassandra_pu">
         <provider>com.impetus.kundera.KunderaPersistence</provider>
-        <class>models.User</class>
-        <class>models.Product</class>
-        <class>models.Session</class>
+        <jar-file>myEntities.jar</jar-file>
         <properties>
             <property name="kundera.nodes" value="localhost"/>
             <property name="kundera.port" value="9042"/>

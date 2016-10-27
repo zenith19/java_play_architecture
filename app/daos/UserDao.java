@@ -11,16 +11,7 @@ import javax.persistence.Persistence;
 /**
  * Created by zenith on 10/25/16.
  */
-public class UserDao {
-    static EntityManagerFactory entityManagerFactory;
-
-    private static EntityManagerFactory getEmf() {
-        if (entityManagerFactory == null) {
-            entityManagerFactory = Persistence.createEntityManagerFactory("cassandra_pu");
-        }
-
-        return entityManagerFactory;
-    }
+public class UserDao extends BaseDao{
 
     public JsonNode registration(User user){
         EntityManager em = getEmf().createEntityManager();
@@ -28,5 +19,13 @@ public class UserDao {
         em.close();
 
         return Json.toJson(user);
+    }
+
+    public String login(String email, String password){
+        EntityManager em = getEmf().createEntityManager();
+        User user = em.find(User.class, email);
+        em.close();
+
+        return user.getEmail();
     }
 }

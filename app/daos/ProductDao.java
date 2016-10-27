@@ -1,18 +1,19 @@
 package daos;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Singleton;
 import models.Product;
 import play.libs.Json;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import java.util.List;
 
 /**
  * Created by rownak on 10/25/16.
  */
-public class ProductDao {
-    static EntityManagerFactory entityManagerFactory;
+
+@Singleton
+public class ProductDao extends BaseDao{
 
     public JsonNode create(Product product){
         EntityManager entityManager = getEmf().createEntityManager();
@@ -30,6 +31,14 @@ public class ProductDao {
         return product;
     }
 
+    public List<Product> getAllProduct() {
+        EntityManager entityManager = getEmf().createEntityManager();
+        List<Product> products = entityManager.createQuery("SELECT p from Product p").getResultList();
+        entityManager.close();
+
+        return products;
+    }
+
     public JsonNode update(Product product) {
         EntityManager entityManager = getEmf().createEntityManager();
         Product updatedProduct = entityManager.merge(product);
@@ -42,13 +51,5 @@ public class ProductDao {
         EntityManager entityManager = getEmf().createEntityManager();
         entityManager.remove(product);
         entityManager.close();
-    }
-
-    private static EntityManagerFactory getEmf() {
-        if (entityManagerFactory == null) {
-            entityManagerFactory = Persistence.createEntityManagerFactory("cassandra_pu");
-        }
-
-        return entityManagerFactory;
     }
 }

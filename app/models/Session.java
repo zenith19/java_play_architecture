@@ -8,6 +8,7 @@ import javax.persistence.Table;
 /**
  * Created by zenith on 10/26/16.
  */
+
 @Entity
 @Table(name = "sessions", schema = "java_play@cassandra_pu")
 public class Session {

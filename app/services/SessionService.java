@@ -9,8 +9,6 @@ import models.User;
 import play.libs.Json;
 import play.mvc.Result;
 
-import static play.mvc.Results.ok;
-
 /**
  * Created by zenith on 10/26/16.
  */
@@ -42,5 +40,10 @@ public class SessionService {
             e.printStackTrace();
         }
         return sessionDao.logout(session);
+    }
+
+    public Session authenticate(String authToken) {
+
+        return sessionDao.getSession(authToken);
     }
 }

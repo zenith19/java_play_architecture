@@ -3,6 +3,7 @@ package controllers;
 import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
@@ -17,6 +18,7 @@ import java.util.concurrent.Executor;
 /**
  * Created by zenith on 10/25/16.
  */
+@Singleton
 public class UserController extends Controller{
     UserService userService = new UserService();
 
@@ -37,19 +39,4 @@ public class UserController extends Controller{
             }, ec.current()
         );
     }
-
-    @Inject
-    ActorSystem akka;
-
-    public CompletionStage<Result> login() throws IOException{
-        Executor myExecutor = akka.dispatchers().lookup("my-context");
-
-        return CompletableFuture.supplyAsync(()->{
-            JsonNode json = request().body().asJson();
-            String authToken = userService.login(json);
-            JsonNode jsonNode = Json.toJson(authToken);
-            return ok(jsonNode);
-        }, new HttpExecutionContext(myExecutor).current());
-    }
-
 }

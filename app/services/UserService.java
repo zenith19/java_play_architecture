@@ -19,10 +19,4 @@ public class UserService {
 
         return userDao.registration(user);
     }
-
-    public String login(JsonNode jsonNode){
-        User user = Json.fromJson(jsonNode, User.class);
-
-        return userDao.login(user.getEmail(), user.getPassword());
-    }
 }

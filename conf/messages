@@ -1,4 +1,7 @@
-deleteSuccess = "Successfully deleted"
-invalidUser = "Invalid User"
-emptyProductName = "Please enter Product name"
-invalidProductPrice = "Price should be > 0 and < 9999999"
+invalidUser      = Invalid User
+emptyProductName = Please enter Product name
+invalidProductPrice = Price should be > 0 and < 9999999
+deleteSuccess  = Successfully deleted
+sessionInvalid = Invalid Username or Password
+logoutError    = Invalid Email or AuthToken
+logout         = Successfully Logged Out

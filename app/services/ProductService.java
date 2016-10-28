@@ -8,7 +8,6 @@ import models.Product;
 import play.i18n.MessagesApi;
 import play.libs.Json;
 import play.mvc.Http;
-import utils.Validation;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +19,6 @@ import java.util.UUID;
 @Singleton
 public class ProductService {
     private ProductDao productDao;
-    Validation validation = new Validation();
     private final MessagesApi messagesApi;
 
     @Inject
@@ -32,46 +30,49 @@ public class ProductService {
     public JsonNode create(JsonNode jsonNode) throws Exception {
         Product product = Json.fromJson(jsonNode, Product.class);
         product.setProductId(UUID.randomUUID().toString());
-        inputValidation(product);
 
         return productDao.create(product);
     }
 
     public JsonNode update(JsonNode jsonNode, String productId) throws Exception {
+        play.i18n.Lang lang = Http.Context.current().lang();
         Product product = productDao.getProductById(productId);
+
+        if (product == null) {
+            throw new Exception(messagesApi.get(lang, "productNotFound"));
+        }
         Product formProduct = Json.fromJson(jsonNode, Product.class);
 
         product.setProductName(formProduct.getProductName());
         product.setPrice(formProduct.getPrice());
-        inputValidation(product);
 
         return productDao.update(product);
     }
 
-    public void delete(String productId) {
+    public void delete(String productId) throws Exception {
+        play.i18n.Lang lang = Http.Context.current().lang();
         Product product = productDao.getProductById(productId);
+
+        if (product == null) {
+            throw new Exception(messagesApi.get(lang, "productNotFound"));
+        }
+
         productDao.delete(product);
     }
 
-    public JsonNode get(String productId) {
+    public JsonNode get(String productId) throws Exception {
+        play.i18n.Lang lang = Http.Context.current().lang();
         Product product = productDao.getProductById(productId);
+
+        if (product == null) {
+            throw new Exception(messagesApi.get(lang, "productNotFound"));
+        }
+
         return Json.toJson(product);
     }
 
     public JsonNode getAll() {
         List<Product> products = productDao.getAllProduct();
         return Json.toJson(products);
-    }
-
-    private void inputValidation(Product product) throws Exception {
-        play.i18n.Lang lang = Http.Context.current().lang();
-
-        if (validation.validateString(product.getProductName()) == null) {
-            throw new Exception(messagesApi.get(lang, "emptyProductName"));
-        }
-
-        if (product.getPrice() < 1 || product.getPrice() > 9999999) {
-            throw new Exception(messagesApi.get(lang, "invalidProductPrice"));
-        }
     }
 }

@@ -4,6 +4,9 @@ import akka.actor.ActorSystem;
 import authorization.NeedLogin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
+import models.Product;
+import play.data.Form;
+import play.data.FormFactory;
 import play.i18n.MessagesApi;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
@@ -35,9 +38,18 @@ public class ProductController extends Controller {
     @Inject
     HttpExecutionContext ec;
 
+    @Inject
+    FormFactory formFactory;
+
     // async product creation using default threadpool
     public CompletionStage<Result> create() {
+
         return CompletableFuture.supplyAsync(() -> {
+            Form<Product> productForm = formFactory.form(Product.class).bindFromRequest();
+            if (productForm.hasErrors()) {
+                JsonNode jsonError = productForm.errorsAsJson();
+                return ok(jsonError);
+            }
             JsonNode jsonNode = null;
             try {
                 JsonNode json = request().body().asJson();
@@ -60,7 +72,12 @@ public class ProductController extends Controller {
     //async find product using default threadpool
     public CompletionStage<Result> get(String productId) {
         return CompletableFuture.supplyAsync(() -> {
-            JsonNode jsonNode = productService.get(productId);
+            JsonNode jsonNode = null;
+            try {
+                jsonNode = productService.get(productId);
+            } catch (Exception e) {
+                jsonNode = Json.toJson(e.getMessage());
+            }
             return ok(jsonNode);
         }, ec.current());
     }
@@ -72,8 +89,14 @@ public class ProductController extends Controller {
         play.i18n.Lang lang = Http.Context.current().lang();
 
         return CompletableFuture.supplyAsync(() -> {
-            productService.delete(productId);
-            return ok(messagesApi.get(lang, "deleteSuccess"));
+            JsonNode jsonNode = null;
+            try {
+                productService.delete(productId);
+                jsonNode = Json.toJson(messagesApi.get(lang, "deleteSuccess"));
+            } catch (Exception e) {
+                jsonNode = Json.toJson(e.getMessage());
+            }
+            return ok(jsonNode);
         }, ec.current());
     }
 
@@ -87,6 +110,12 @@ public class ProductController extends Controller {
         Executor myExecutor = akka.dispatchers().lookup("my-context");
 
         return CompletableFuture.supplyAsync(() -> {
+            Form<Product> productForm = formFactory.form(Product.class).bindFromRequest();
+            if (productForm.hasErrors()) {
+                JsonNode jsonError = productForm.errorsAsJson();
+                return ok(jsonError);
+            }
+
             JsonNode jsonNode = null;
             try {
                 JsonNode json = request().body().asJson();

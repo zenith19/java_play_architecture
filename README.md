@@ -8,10 +8,15 @@ NoSQL database of choice. It is also needed to integrate Kundera ORM for
 this.
 
 ### Library version
+
 JDK 8
+
 play 2.5.8
+
 kundera 3.6 with cassandra-ds-driver 3.1
+
 cassandra 3.9
+
 
 ### Make entity classes available at runtime
 When running in development mode, Play uses its own Classloader, that 

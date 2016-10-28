@@ -23,10 +23,10 @@ consequence. In order to make your entity classes available at run time
 (in development mode, of course), all you’ve to do is to create jar 
 file out of them and put this jar file into lib folder under project 
 root directory.
-➜  fsns_1 git:(patch_cors_issue) cd target/scala-2.11/classes
-➜  fsns_1 git:(patch_cors_issue) jar -cvf myEntities.jar models
-➜  fsns_1 git:(patch_cors_issue) cp myEntities.jar ../../../lib
-➜  fsns_1 git:(patch_cors_issue) cp myEntities.jar ../../../
+<li>  fsns_1 git:(patch_cors_issue) cd target/scala-2.11/classes</li>
+<li>  fsns_1 git:(patch_cors_issue) jar -cvf myEntities.jar models</li>
+<li>  fsns_1 git:(patch_cors_issue) cp myEntities.jar ../../../lib</li>
+<li>  fsns_1 git:(patch_cors_issue) cp myEntities.jar ../../../</li>
 
 
 ### Start Cassandra Server and create schema/ tables
@@ -35,9 +35,9 @@ Now, create schema and tables for User entity to be written to:
 ➜  fsns_1 git:(fix_orm_issue) cqlsh
 Connected to Test Cluster at 127.0.0.1:9042.
 [cqlsh 5.0.1 | Cassandra 3.6 | CQL spec 3.4.2 | Native protocol v4]
-Use HELP for help.
-cqlsh> create keyspace fsns;
-cqlsh> use fsns;
+Use HELP for help.<br>
+cqlsh> create keyspace fsns;<br>
+cqlsh> use fsns;<br>
 cqlsh> create column family users with comparator=UTF8Type and 
     default_validation_class=UTF8Type and key_validation_class=UTF8Type;
 81852270-2374-11e1-0000-242d50cf1fdd

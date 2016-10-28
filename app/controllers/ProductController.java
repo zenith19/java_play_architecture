@@ -1,7 +1,7 @@
 package controllers;
 
 import akka.actor.ActorSystem;
-import auth.NeedLogin;
+import authorization.NeedLogin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import play.i18n.MessagesApi;

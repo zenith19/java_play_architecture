@@ -1,4 +1,4 @@
-package auth;
+package authorization;
 
 import com.google.inject.Inject;
 import models.Session;

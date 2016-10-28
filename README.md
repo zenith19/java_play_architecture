@@ -21,9 +21,13 @@ consequence. In order to make your entity classes available at run time
 (in development mode, of course), all you’ve to do is to create jar file 
 out of them and put this jar file into lib folder under project root 
 directory.
+
 <li>fsns_1 git:(patch_cors_issue) cd target/scala-2.11/classes</li>
+
 <li>fsns_1 git:(patch_cors_issue) jar -cvf myEntities.jar models</li>
+
 <li>fsns_1 git:(patch_cors_issue) cp myEntities.jar ../../../lib</li>
+
 <li>fsns_1 git:(patch_cors_issue) cp myEntities.jar ../../../</li>
 
 ### Start Cassandra Server and create schema/ tables

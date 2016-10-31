@@ -1,14 +1,16 @@
-import com.fasterxml.jackson.databind.JsonNode;
-import play.*;
+import play.Configuration;
+import play.Environment;
 import play.api.OptionalSourceMapper;
-import play.api.UsefulException;
 import play.api.routing.Router;
 import play.http.DefaultHttpErrorHandler;
 import play.libs.Json;
-import play.mvc.Http.*;
-import play.mvc.*;
+import play.mvc.Http;
+import play.mvc.Result;
+import play.mvc.Results;
 
-import javax.inject.*;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -32,5 +34,11 @@ public class ErrorHandler extends DefaultHttpErrorHandler {
 
         // TODO : This app is backend server. so that, return 404 with json message.
         return CompletableFuture.completedFuture(Results.notFound(Json.toJson("NOT FOUND.")));
+    }
+
+    @Override
+    public java.util.concurrent.CompletionStage<Result> onServerError(Http.RequestHeader request,
+                                                                      java.lang.Throwable exception) {
+        return CompletableFuture.completedFuture(Results.notFound(Json.toJson(exception.getMessage())));
     }
 }

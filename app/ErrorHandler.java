@@ -1,8 +1,10 @@
+import com.fasterxml.jackson.databind.JsonNode;
 import play.*;
 import play.api.OptionalSourceMapper;
 import play.api.UsefulException;
 import play.api.routing.Router;
 import play.http.DefaultHttpErrorHandler;
+import play.libs.Json;
 import play.mvc.Http.*;
 import play.mvc.*;
 
@@ -25,7 +27,10 @@ public class ErrorHandler extends DefaultHttpErrorHandler {
 
     @Override
     protected CompletionStage<Result> onNotFound(Http.RequestHeader request, String message) {
-        System.out.println("call handler");
-        return CompletableFuture.completedFuture(Results.redirect("/"));
+        //TODO: delele console output.
+        //System.out.println("call handler");
+
+        // TODO : This app is backend server. so that, return 404 with json message.
+        return CompletableFuture.completedFuture(Results.notFound(Json.toJson("NOT FOUND.")));
     }
 }

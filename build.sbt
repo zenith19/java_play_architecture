@@ -10,6 +10,7 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
+  javaJpa,
   "com.datastax.cassandra" % "cassandra-driver-core" % "3.1.0",
   "com.datastax.cassandra" % "cassandra-driver-mapping" % "3.1.0",
   "com.datastax.cassandra" % "cassandra-driver-extras" % "3.1.0",

@@ -6,6 +6,7 @@ import javax.persistence.Persistence;
 /**
  * Created by zenith on 10/26/16.
  */
+// TODO : I think BaseDao is not necessary, please use JPAApi instead.
 public class BaseDao {
     static EntityManagerFactory entityManagerFactory;
 

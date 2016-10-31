@@ -27,6 +27,7 @@ public class SessionService {
         if (user == null || !user.getPassword().equals(tempUserVar.getPassword())) {
             return null;
         }
+        // TODO It has security risk. don't save raw password in Database. Please use random string.
         String authToken = user.getEmail()+user.getPassword();
         Session session = new Session();
         session.setEmail(user.getEmail());

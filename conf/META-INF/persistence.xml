@@ -10,6 +10,7 @@
             <property name="kundera.port" value="9042"/>
             <property name="kundera.keyspace" value="java_play"/>
             <property name="kundera.dialect" value="cassandra"/>
+            <property name="kundera.show.query" value="true" />
             <property name="kundera.client.lookup.class" value="com.impetus.kundera.client.cassandra.dsdriver.DSClientFactory" />
         </properties>
     </persistence-unit>

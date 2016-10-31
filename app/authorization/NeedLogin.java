@@ -24,6 +24,12 @@ public class NeedLogin extends Security.Authenticator {
     @Override
     public String getUsername(Http.Context ctx) {
         String authToken = ctx.request().getHeader("Authorization");
+
+        //TODO: check authToken is null or empty;
+        if (authToken == null || authToken.trim().isEmpty()) {
+            return null;
+        }
+
         Session session = sessionService.authenticate(authToken);
         if (session != null) {
             return authToken;

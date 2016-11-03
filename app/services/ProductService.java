@@ -40,9 +40,6 @@ public class ProductService {
         this.jpa = jpa;
     }
 
-
-
-
     /*TODO:
            JsonNode doesn't use Service.
            I think, conversion betwwen JSON and Object(DTO, Entity, Java Beans) is controller's responsibility,

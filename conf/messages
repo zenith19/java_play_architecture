@@ -5,3 +5,4 @@ logoutError    = Invalid Email or AuthToken
 logout         = Successfully Logged Out
 productNotFound = Product not found
 userNotFound   = User not found
+specialCharacter = Special Character Found

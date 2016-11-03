@@ -1,13 +1,9 @@
 package daos;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import helpers.NoTxJPA;
 import models.Product;
-import play.db.jpa.JPA;
-import play.db.jpa.JPAApi;
-import play.libs.Json;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -32,10 +28,8 @@ public class ProductDao{
         //TODO: Please doesn't call createEntityManger and close in every Dao method. There should call in service method.
         //      Because createEntityManger is heavy. And transaction is not available.
 
-
         EntityManager entityManager = jpa.currentEm();
         entityManager.persist(product);
-
         //entityManager.close();
 
         return product;
@@ -57,12 +51,12 @@ public class ProductDao{
         return products;
     }
 
-    public JsonNode update(Product product) {
+    public Product update(Product product) {
         EntityManager entityManager = jpa.currentEm();
         Product updatedProduct = entityManager.merge(product);
         //entityManager.close();
 
-        return Json.toJson(updatedProduct);
+        return updatedProduct;
     }
 
     public void delete(Product product) {

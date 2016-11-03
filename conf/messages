@@ -4,3 +4,4 @@ sessionInvalid = Invalid Username or Password
 logoutError    = Invalid Email or AuthToken
 logout         = Successfully Logged Out
 productNotFound = Product not found
+specialCharacter = Special Character Found

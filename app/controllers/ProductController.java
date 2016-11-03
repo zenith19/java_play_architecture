@@ -1,6 +1,5 @@
 package controllers;
 
-import akka.actor.ActorSystem;
 import authorization.NeedLogin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
@@ -9,16 +8,11 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.i18n.MessagesApi;
 import play.libs.Json;
-import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
 import services.ProductService;
-
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.Executor;
 
 /**
  * Created by rownak on 10/25/16.
@@ -42,7 +36,6 @@ public class ProductController extends Controller {
         this.messagesApi = messagesApi;
         this.formFactory = formFactory;
     }
-
 
     // async product creation using default threadpool
     // TODO; return Result, not but ComletionStage<Rusult>;

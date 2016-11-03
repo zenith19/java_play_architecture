@@ -18,7 +18,7 @@ DELETE  /products/:id               controllers.ProductController.delete(id: Str
 GET     /products/:id               controllers.ProductController.get(id: String)
 GET     /products                   controllers.ProductController.getAll
 
-POST    /registration               controllers.UserController.registration
+POST    /users                      controllers.UserController.create
 
-POST    /login                      controllers.SessionController.login
-DELETE  /logout                     controllers.SessionController.logout
+POST    /sessions                   controllers.SessionController.login
+DELETE  /sessions                   controllers.SessionController.logout

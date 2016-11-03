@@ -4,6 +4,7 @@ import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import models.User;
 import play.i18n.MessagesApi;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
@@ -31,39 +32,29 @@ public class SessionController extends Controller {
         this.messagesApi = messagesApi;
     }
 
-    @Inject
-    ActorSystem akka;
-
-    public CompletionStage<Result> login() {
-        Executor myExecutor = akka.dispatchers().lookup("my-context");
+    public Result login() {
         play.i18n.Lang lang = Http.Context.current().lang();
-
-        return CompletableFuture.supplyAsync(()->{
-            JsonNode json = request().body().asJson();
-            JsonNode authToken = null;
-            authToken = sessionService.login(json);
-            if (authToken == null) {
-                return Results.badRequest(messagesApi.get(lang,"sessionInvalid"));
-            }else {
-                return ok(authToken);
-            }
-        }, new HttpExecutionContext(myExecutor).current());
+        JsonNode json = request().body().asJson();
+        User user = Json.fromJson(json, User.class);
+        JsonNode authToken;
+        authToken = sessionService.login(user);
+        if (authToken == null) {
+            return Results.badRequest(messagesApi.get(lang,"sessionInvalid"));
+        }else {
+            return ok(authToken);
+        }
     }
 
-    public CompletionStage<Result> logout() {
-        Executor myExecutor = akka.dispatchers().lookup("my-context");
+    public Result logout() {
         play.i18n.Lang lang = Http.Context.current().lang();
-
-        return CompletableFuture.supplyAsync(()->{
-            String authToken = request().getHeader("Authorization");
-            JsonNode jsonNode = null;
-            try {
-                sessionService.logout(authToken);
-                jsonNode = Json.toJson(messagesApi.get(lang, "logout"));
-            } catch (Exception e) {
-                jsonNode = Json.toJson(messagesApi.get(lang, "logoutError"));
-            }
-            return ok(jsonNode);
-        }, new HttpExecutionContext(myExecutor).current());
+        String authToken = request().getHeader("Authorization");
+        JsonNode jsonNode;
+        try {
+            sessionService.logout(authToken);
+            jsonNode = Json.toJson(messagesApi.get(lang, "logout"));
+        } catch (Exception e) {
+            jsonNode = Json.toJson(messagesApi.get(lang, "logoutError"));
+        }
+        return ok(jsonNode);
     }
 }

@@ -1,31 +1,28 @@
 package daos;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import helpers.NoTxJPA;
 import models.User;
-import play.libs.Json;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
+import javax.persistence.EntityManager;
 
 /**
  * Created by zenith on 10/25/16.
  */
-public class UserDao extends BaseDao{
+@Singleton
+public class UserDao {
+    private final NoTxJPA jpa;
 
-    public JsonNode registration(User user){
-        EntityManager em = getEmf().createEntityManager();
-        em.persist(user);
-        em.close();
-
-        return Json.toJson(user);
+    @Inject
+    public UserDao(NoTxJPA jpa) {
+        this.jpa = jpa;
     }
 
-    public String login(String email, String password){
-        EntityManager em = getEmf().createEntityManager();
-        User user = em.find(User.class, email);
-        em.close();
+    public User create(User user) {
+        EntityManager entityManager = jpa.currentEm();
+        entityManager.persist(user);
 
-        return user.getEmail();
+        return user;
     }
 }

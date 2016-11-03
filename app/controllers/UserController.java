@@ -7,48 +7,37 @@ import models.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
-import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Results;
 import services.UserService;
-
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 
 /**
  * Created by zenith on 10/25/16.
  */
 @Singleton
 public class UserController extends Controller{
-    UserService userService = new UserService();
+    private final UserService userService;
+    private final FormFactory formFactory;
+
     @Inject
-    public UserController(UserService userService) {
+    public UserController(UserService userService, FormFactory formFactory) {
         this.userService = userService;
+        this.formFactory = formFactory;
     }
 
-    @Inject
-    HttpExecutionContext ec;
-
-    @Inject
-    FormFactory formFactory;
-
-    public CompletionStage<Result> registration(){
-
-        return CompletableFuture.supplyAsync(()->{
-            Form<User> user = formFactory.form(User.class).bindFromRequest();
-            if (user.hasErrors()) {
-                JsonNode jsonError = user.errorsAsJson();
-                return ok(jsonError);
-            }
-            JsonNode json = request().body().asJson();
-            JsonNode jsonNode = null;
-            try{
-                jsonNode = userService.registration(json);
-            }catch (Exception e){
-                jsonNode = Json.toJson(e.getMessage());
-            }
-            return ok(jsonNode);
-           }, ec.current()
-        );
+    public Result create(){
+        Form<User> formUser = formFactory.form(User.class).bindFromRequest();
+        if (formUser.hasErrors()) {
+            JsonNode jsonError = formUser.errorsAsJson();
+            return Results.badRequest(jsonError);
+        }
+        User user = null;
+        try{
+            user = userService.create(formUser.get());
+        }catch (Exception e){
+            Json.toJson(e.getMessage());
+        }
+        return ok(Json.toJson(user));
     }
 }

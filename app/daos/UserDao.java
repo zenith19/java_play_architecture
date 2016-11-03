@@ -1,31 +1,21 @@
 package daos;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Singleton;
 import models.User;
-import play.libs.Json;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
+import javax.persistence.EntityManager;
 
 /**
  * Created by zenith on 10/25/16.
  */
+@Singleton
 public class UserDao extends BaseDao{
 
-    public JsonNode registration(User user){
+    public User create(User user){
         EntityManager em = getEmf().createEntityManager();
         em.persist(user);
         em.close();
 
-        return Json.toJson(user);
-    }
-
-    public String login(String email, String password){
-        EntityManager em = getEmf().createEntityManager();
-        User user = em.find(User.class, email);
-        em.close();
-
-        return user.getEmail();
+        return user;
     }
 }

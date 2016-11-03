@@ -1,10 +1,12 @@
 package services;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import daos.UserDao;
 import models.User;
-import play.libs.Json;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 
 /**
@@ -12,11 +14,25 @@ import play.libs.Json;
  */
 @Singleton
 public class UserService {
-    UserDao userDao = new UserDao();
+    private final UserDao userDao;
 
-    public JsonNode registration(JsonNode jsonNode){
-        User user = Json.fromJson(jsonNode, User.class);
+    @Inject
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
-        return userDao.registration(user);
+    private String encryptPassword(String password){
+        byte[] passwordBytes = password.getBytes(StandardCharsets.UTF_8);
+        String encodedPassword = Base64.getEncoder().encodeToString(passwordBytes);
+
+        return encodedPassword;
+    }
+
+    public User create(User user){
+        String password = user.getPassword();
+        user.setPassword(encryptPassword(user.getPassword()));
+        User user1 = userDao.create(user);
+        user1.setPassword(password);
+        return user1;
     }
 }

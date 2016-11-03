@@ -8,6 +8,10 @@ import models.Session;
 import models.User;
 import play.libs.Json;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.UUID;
+
 /**
  * Created by zenith on 10/26/16.
  */
@@ -20,15 +24,21 @@ public class SessionService {
         this.sessionDao = sessionDao;
     }
 
-    public JsonNode login(JsonNode jsonNode){
-        User tempUserVar = Json.fromJson(jsonNode, User.class);
-        User user = sessionDao.getUser(tempUserVar.getEmail());
+    private String decryptPassword(String password){
+        byte[] decoded = Base64.getDecoder().decode(password);
 
-        if (user == null || !user.getPassword().equals(tempUserVar.getPassword())) {
+        return new String(decoded, StandardCharsets.UTF_8);
+    }
+
+    public JsonNode login(User user){
+        User tempUser = sessionDao.getUser(user.getEmail());
+        String password = decryptPassword(tempUser.getPassword());
+
+        if ((tempUser == null) || !password.equals(user.getPassword())) {
             return null;
         }
         // TODO It has security risk. don't save raw password in Database. Please use random string.
-        String authToken = user.getEmail()+user.getPassword();
+        String authToken = UUID.randomUUID().toString();
         Session session = new Session();
         session.setEmail(user.getEmail());
         session.setAuthToken(authToken);

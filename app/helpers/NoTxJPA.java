@@ -2,7 +2,6 @@ package helpers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import net.sf.ehcache.search.expression.Not;
 import play.db.jpa.JPAApi;
 
 import javax.persistence.EntityManager;
@@ -61,10 +60,11 @@ public class NoTxJPA {
     }
 
     public EntityManager currentEm() {
-        if(emHolder.get() == null) {
-            throw new IllegalStateException("not set em in current thread");
-        }
-        return emHolder.get();
+//        if(emHolder.get() == null) {
+//            throw new IllegalStateException("not set em in current thread");
+//        }
+//        return emHolder.get();
+        return jpa.em("default");
     }
 
 

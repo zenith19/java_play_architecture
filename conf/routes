@@ -19,6 +19,8 @@ GET     /products/:id               controllers.ProductController.get(id: String
 GET     /products                   controllers.ProductController.getAll
 
 POST    /users                      controllers.UserController.create
+PUT     /users                      controllers.UserController.update
+GET     /users                      controllers.UserController.getUserGroupByBranch
 
 POST    /sessions                   controllers.SessionController.login
 DELETE  /sessions                   controllers.SessionController.logout

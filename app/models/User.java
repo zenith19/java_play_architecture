@@ -26,6 +26,15 @@ public class User {
     @Length(min = 6)
     @Required(message = "Password minimum length 6")
     private String password;
+    private String branch;
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
 
     public String getEmail() {
         return email;

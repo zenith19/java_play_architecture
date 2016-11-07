@@ -1,6 +1,7 @@
 package helpers;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import play.db.jpa.JPAApi;
 
@@ -13,12 +14,12 @@ import java.util.function.Supplier;
 @Singleton
 public class NoTxJPA {
 
-    private final JPAApi jpa;
+    private final Provider<JPAApi> jpa;
 
     private ThreadLocal<EntityManager> emHolder = new ThreadLocal<>();
 
     @Inject
-    public NoTxJPA(JPAApi jpa) {
+    public NoTxJPA(Provider<JPAApi> jpa) {
         this.jpa = jpa;
     }
     /* TODO:
@@ -29,7 +30,7 @@ public class NoTxJPA {
         try {
             if (emHolder.get() == null) {
 
-                em = jpa.em("default");
+                em = jpa.get().em("default");
                 emHolder.set(em);
             }
             T ret = block.get(); // in block, call jpaapi#em();
@@ -50,7 +51,7 @@ public class NoTxJPA {
 
             if (emHolder.get() == null) {
 
-                em = jpa.em("default");
+                em = jpa.get().em("default");
                 emHolder.set(em);
             }
             block.run();

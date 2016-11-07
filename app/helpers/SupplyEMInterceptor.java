@@ -1,17 +1,24 @@
 package helpers;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import play.db.jpa.JPAApi;
 
 
 public class SupplyEMInterceptor implements MethodInterceptor {
-    @Inject private NoTxJPA jpa;
+
+    private Provider<NoTxJPA> provider;
+
+     public SupplyEMInterceptor(Provider<NoTxJPA> provider) {
+         this.provider = provider;
+     }
+
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        return jpa.withDefaultEm(() -> {
+        return provider.get().withDefaultEm(() -> {
 
             try {
                 return invocation.proceed();

@@ -58,7 +58,7 @@ public class UserService {
 
     public User update(User formUser) {
 
-        User user = userDao.getUserByEmail(formUser.getEmail());
+        User user = userDao.selectOne(formUser.getEmail());
         String password = null;
 
         if (user == null) {

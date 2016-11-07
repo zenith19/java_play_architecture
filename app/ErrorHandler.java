@@ -44,6 +44,7 @@ public class ErrorHandler extends DefaultHttpErrorHandler {
     @Override
     public java.util.concurrent.CompletionStage<Result> onServerError(Http.RequestHeader request,
                                                                       java.lang.Throwable exception) {
+        exception.printStackTrace();
         // TODO : message handling example.
         if (exception instanceof ApplicationException) {
             // common ApplicationException handling.

@@ -27,7 +27,7 @@ public class ProductController extends Controller {
     private final ProductValidation productValidation;
     private final FormFactory formFactory;
 
-    // TODO:; AsyncResult only use slow process, Return Normal Result  in generray case. Because, Async and CompletableStage is difficult.
+    // TODO:; AsyncResult only use slow process, Return Normal Result  in generally case. Because, Async and CompletableStage is difficult.
 
     // TODO : please use constructor injection.
     @Inject
@@ -72,13 +72,15 @@ public class ProductController extends Controller {
     // TODO; return Result, not but ComletionStage<Rusult>;
     public Result getAll() {
         // TODO: please fix service intput/output from json to Java object.
-        List<Product> products = null;
-        try {
-            products = productService.getAll();
-        }
-        finally {
-            return ok(Json.toJson(products));
-        }
+        //List<Product> products = null;
+        //try {
+        //    products = productService.getAll();
+        //}
+        //finally {
+        //    return ok(Json.toJson(products));
+        //}
+        // TODO: doesn't use finally instead of catch. It causes invalid http response.
+        return ok(Json.toJson(productService.getAll()));
     }
 
     // TODO; return Result, not but ComletionStage<Rusult>;

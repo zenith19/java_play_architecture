@@ -15,34 +15,21 @@ import java.util.List;
  * Created by zenith on 10/25/16.
  */
 @Singleton
-public class UserDao {
+// TODO: For development easyly, I write esample of GenericDao example.
+public class UserDao implements GenericDao<User, String> {
     private final NoTxJPA jpa;
+
 
     @Inject
     public UserDao(NoTxJPA jpa) {
         this.jpa = jpa;
     }
 
-    public User create(User user) {
-        EntityManager entityManager = jpa.currentEm();
-        entityManager.persist(user);
-
-        return user;
+    @Override
+    public EntityManager getEm() {
+        return jpa.currentEm();
     }
 
-    public User update(User user) {
-        EntityManager entityManager = jpa.currentEm();
-        entityManager.merge(user);
-
-        return user;
-    }
-
-    public User getUserByEmail(String email) {
-        EntityManager entityManager = jpa.currentEm();
-        User user = entityManager.find(User.class, email);
-
-        return user;
-    }
 
     public List<User> getUserGroupByBranch() {
         EntityManager entityManager = jpa.currentEm();

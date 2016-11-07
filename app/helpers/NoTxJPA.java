@@ -27,9 +27,11 @@ public class NoTxJPA {
     public <T> T withDefaultEm(Supplier<T> block) {
         EntityManager em = null;
         try {
+            if (emHolder.get() == null) {
 
-            em = jpa.em("default");
-            emHolder.set(em);
+                em = jpa.em("default");
+                emHolder.set(em);
+            }
             T ret = block.get(); // in block, call jpaapi#em();
             return ret;
         } finally {
@@ -46,8 +48,11 @@ public class NoTxJPA {
         EntityManager em = null;
         try {
 
-            em = jpa.em("default");
-            emHolder.set(em);
+            if (emHolder.get() == null) {
+
+                em = jpa.em("default");
+                emHolder.set(em);
+            }
             block.run();
         } finally {
             if (em != null) {
@@ -59,12 +64,16 @@ public class NoTxJPA {
         }
     }
 
+    /**
+     * return EntityManger inside withDefaultEm.
+     * @return entityManager
+     */
     public EntityManager currentEm() {
-//        if(emHolder.get() == null) {
-//            throw new IllegalStateException("not set em in current thread");
-//        }
-//        return emHolder.get();
-        return jpa.em("default");
+
+        if(emHolder.get() == null) {
+            throw new IllegalStateException("not set em in current thread. you may not use withDefaultEm or @SupplyEM");
+        }
+        return emHolder.get();
     }
 
 

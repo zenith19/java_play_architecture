@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 @Singleton
-public class ProductDao{
+public class ProductDao implements GenericDao<Product, String>{
 
     private final NoTxJPA jpa;
 
@@ -22,18 +22,12 @@ public class ProductDao{
         this.jpa = jpa;
     }
 
-    // TODO; Json lib dosen't use Dao and service. Please see ProductService#create todo comment.
-    public Product create(Product product){
-
-        //TODO: Please doesn't call createEntityManger and close in every Dao method. There should call in service method.
-        //      Because createEntityManger is heavy. And transaction is not available.
-
-        EntityManager entityManager = jpa.currentEm();
-        entityManager.persist(product);
-        //entityManager.close();
-
-        return product;
+    @Override
+    public EntityManager getEm() {
+        return jpa.currentEm();
     }
+
+
 
     public Product getProductById(String productId) {
         EntityManager entityManager = jpa.currentEm();
@@ -44,24 +38,12 @@ public class ProductDao{
     }
 
     public List<Product> getAllProduct() {
-        EntityManager entityManager = jpa.currentEm();
-        List<Product> products = entityManager.createQuery("SELECT p from Product p").getResultList();
+        //EntityManager entityManager = jpa.currentEm();
+       // List<Product> products = entityManager.createQuery("SELECT p from Product p").getResultList();
        // entityManager.close();
 
-        return products;
+        return selectAll();
     }
 
-    public Product update(Product product) {
-        EntityManager entityManager = jpa.currentEm();
-        Product updatedProduct = entityManager.merge(product);
-        //entityManager.close();
 
-        return updatedProduct;
-    }
-
-    public void delete(Product product) {
-        EntityManager entityManager = jpa.currentEm();
-        entityManager.remove(product);
-       // entityManager.close();
-    }
 }

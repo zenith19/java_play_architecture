@@ -54,14 +54,10 @@ public class UserController extends Controller {
         }
 
         User user = userForm.get();
-        JsonNode jsonNode = null;
-        try {
-            User updatedUser = userService.update(user);
-            jsonNode = Json.toJson(updatedUser);
-        }
-        finally {
-            return ok(jsonNode);
-        }
+
+        // TODO : Doesn't use finally instead of catch. It causes writing invalid HTTP response.
+        User updatedUser = userService.update(user);
+        return ok(Json.toJson(updatedUser));
     }
 
     public Result getUserGroupByBranch() {

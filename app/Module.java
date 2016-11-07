@@ -1,4 +1,7 @@
 import com.google.inject.AbstractModule;
+import com.google.inject.matcher.Matchers;
+import helpers.SupplyEM;
+import helpers.SupplyEMInterceptor;
 import services.*;
 
 import java.time.Clock;
@@ -24,6 +27,15 @@ public class Module extends AbstractModule {
         bind(ApplicationTimer.class).asEagerSingleton();
         // Set AtomicCounter as the implementation for Counter.
         bind(Counter.class).to(AtomicCounter.class);
+
+        // setting EM interceptor
+        SupplyEMInterceptor interceptor = new SupplyEMInterceptor();
+        requestInjection(interceptor);
+        bindInterceptor(Matchers.any(), Matchers.annotatedWith(SupplyEM.class), interceptor);
+        bindInterceptor(Matchers.annotatedWith(SupplyEM.class), Matchers.any(), interceptor);
+
+        // password encrypter
+        bind(PasswordEncrypter.class).to(BcryptPasswordEncrypter.class);
 
     }
 

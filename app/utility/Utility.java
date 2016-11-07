@@ -1,5 +1,10 @@
 package utility;
 
+import org.mindrot.jbcrypt.BCrypt;
+import play.api.mvc.Cookie;
+import play.api.mvc.Session;
+import play.mvc.Security;
+
 import java.util.UUID;
 
 /**
@@ -7,7 +12,7 @@ import java.util.UUID;
  */
 public class Utility {
 
-    public static String randomString() {
-        return UUID.randomUUID().toString();
+    public static String publichAuthToken() {
+        return Session.cookieSigner().generateToken();
     }
 }

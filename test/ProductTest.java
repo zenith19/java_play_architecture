@@ -18,7 +18,7 @@ import static junit.framework.Assert.assertEquals;
  * Created by rownak on 10/27/16.
  */
 public class ProductTest {
-    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cassandra_pu");
+    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cassandra_test");
 
     private void insertOne(String name, int price) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();

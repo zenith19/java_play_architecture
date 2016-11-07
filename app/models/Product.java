@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
  */
 
 @Entity
-@Table(name = "products", schema = "java_play@cassandra_pu")
+@Table(name = "products")
 public class Product {
     @Id
     @Column(name = "product_id")

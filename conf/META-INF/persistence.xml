@@ -4,7 +4,7 @@
              version="2.0">
     <persistence-unit name="cassandra_pu">
         <provider>com.impetus.kundera.KunderaPersistence</provider>
-        <!-- 2way. 1 is all classes write. 2 is entity into jar file. -->
+        <!-- 2way. 1 is all classes write and classpath set in build.sbt. 2 is entity into jar file. -->
         <class>models.Product</class>
         <class>models.User</class>
         <class>models.Session</class>

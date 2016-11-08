@@ -6,3 +6,12 @@ logout         = Successfully Logged Out
 productNotFound = Product not found
 userNotFound   = User not found
 specialCharacter = Special Character Found
+
+# @Constraints.xxxx default messages can override here.
+error.required = Please enter !!
+error.minLength = input grater than {0}
+
+# custom valition message.
+input.price = Please Enter prirce.
+input.productName = Please Enter ProductName.
+input.specialCharacter = Special Character found.

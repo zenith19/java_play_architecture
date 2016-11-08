@@ -19,6 +19,7 @@ public interface GenericDao<Entity,ID> {
 
     EntityManager getEm();
 
+    @SuppressWarnings("unchecked")
     default Class<Entity> getEntityType() {
         ParameterizedType entityType = Arrays.stream(ProductDao.class.getGenericInterfaces())
                 .map(t -> ((ParameterizedType)t))

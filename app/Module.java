@@ -50,8 +50,9 @@ public class Module extends AbstractModule {
         bind(CassandraEndpointConfig.class).to(LocalEndpointsConfig.class);
     }
 
-    /** cofing for cassandra evolutions
+    /** TODO; coning for cassandra evolutions.
      *  see: https://github.com/leanovate/play-cassandra-evolutions
+     *  This plugin is written in Scala, but works in Java play.
      * */
     public static class LocalEndpointsConfig implements CassandraEndpointConfig {
         @Override

@@ -10,7 +10,7 @@ import javax.ws.rs.DefaultValue;
  * Created by rownak on 11/4/16.
  */
 @Entity
-@Table(name = "user_branches", schema = "java_play@cassandra_pu")
+@Table(name = "user_branches")
 public class UserBranch {
     @Id
     private String branch;

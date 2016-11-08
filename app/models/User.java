@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
  * Created by rownak on 10/25/16.
  */
 @Entity
-@Table(name = "users", schema = "java_play@cassandra_pu")
+@Table(name = "users")
 public class User {
     @Id
     @Email

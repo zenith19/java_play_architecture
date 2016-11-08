@@ -14,7 +14,7 @@ import javax.ws.rs.Encoded;
  */
 
 @Entity
-@Table(name = "sessions", schema = "java_play@cassandra_pu")
+@Table(name = "sessions")
 public class Session {
     @Id
     @Column(name = "auth_token")

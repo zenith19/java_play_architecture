@@ -6,7 +6,11 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
 scalaVersion := "2.11.7"
 
+// need kundera entity metadeta load
+unmanagedClasspath  in Runtime += file("target/scala-2.11/classes")
+
 libraryDependencies ++= Seq(
+  evolutions,
   javaJdbc,
   cache,
   javaWs,
@@ -17,12 +21,15 @@ libraryDependencies ++= Seq(
   "com.impetus.kundera.client" % "kundera-cassandra-ds-driver" % "3.5",
   filters,
   "com.mysema.querydsl" % "querydsl-jpa" % "3.7.4",
-  "com.mysema.querydsl" % "querydsl-apt" % "3.7.4"
+  "com.mysema.querydsl" % "querydsl-apt" % "3.7.4",
+  "de.leanovate" %% "play-cassandra-evolutions" % "2.5.0" //cassandra-evlolution
 )
 
 routesGenerator := InjectedRoutesGenerator
 
 PlayKeys.externalizeResources := false
+
+javaOptions in Test += "-Dconfig.file=conf/test.conf"
 
 // add Query DSL APT process
 // It can usu to run `querydsl`

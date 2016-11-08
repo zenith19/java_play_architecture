@@ -7,7 +7,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 scalaVersion := "2.11.7"
 
 // need kundera entity metadeta load
-unmanagedClasspath  in Runtime += file("target/scala-2.11/classes")
+ unmanagedClasspath  in Runtime += file("target/scala-2.11/classes")
 
 libraryDependencies ++= Seq(
   evolutions,

@@ -20,13 +20,7 @@ public interface GenericDao<Entity,ID> {
     EntityManager getEm();
 
     @SuppressWarnings("unchecked")
-    default Class<Entity> getEntityType() {
-        ParameterizedType entityType = Arrays.stream(ProductDao.class.getGenericInterfaces())
-                .map(t -> ((ParameterizedType)t))
-                .filter(t -> t.getRawType().equals(GenericDao.class)).findFirst().get();
-        Type t = entityType.getActualTypeArguments()[0];
-        return (Class<Entity>)t;
-    }
+    Class<Entity> getEntityType();
 
     default Entity selectOne(ID id) {
         return getEm().find(getEntityType(), id);

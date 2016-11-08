@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
  * Created by zenith on 10/28/16.
  */
 public class SessionTest {
-    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cassandra_pu");
+    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cassandra_test");
 
 //    public void insertOneSession(String authToken, String email) {
 //        EntityManager entityManager = entityManagerFactory.createEntityManager();

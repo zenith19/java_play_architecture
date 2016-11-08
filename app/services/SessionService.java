@@ -4,17 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import daos.SessionDao;
-import daos.UserDao;
 import exceptions.ApplicationException;
 import helpers.SupplyEM;
 import models.Session;
 import models.User;
 import play.libs.Json;
-import play.libs.crypto.CookieSigner;
 import utility.Utility;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 /**
  * Created by zenith on 10/26/16.
@@ -31,15 +26,10 @@ public class SessionService {
         this.encrypter = encrypter;
     }
     // TODO : base64 is not encryption. Shouldn't use.
-    //private String decryptPassword(String password) {
-    //    byte[] decoded = Base64.getDecoder().decode(password);
-
-//        return new String(decoded, StandardCharsets.UTF_8);
-//    }
 
     public JsonNode login(User user) {
         User registeredUser = sessionDao.getUser(user.getEmail());
-        // TODO : check password via encrypter. Note, that registeredUser.getPassword() is encrypterdPassword.
+        // TODO : check password via encryptor. Note, that registeredUser.getPassword() is encrypterdPassword.
         if (registeredUser == null || !encrypter.checkPassword(user.getPassword(), registeredUser.getPassword())) {
             return null;
         }

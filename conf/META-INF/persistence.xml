@@ -17,11 +17,8 @@
             <property name="kundera.dialect" value="cassandra"/>
             <property name="kundera.show.query" value="true" />
             <property name="kundera.client.lookup.class" value="com.impetus.kundera.client.cassandra.dsdriver.DSClientFactory" />
-
-
         </properties>
     </persistence-unit>
-
 
     <persistence-unit name="cassandra_test">
         <provider>com.impetus.kundera.KunderaPersistence</provider>
@@ -33,14 +30,12 @@
         <properties>
             <property name="kundera.nodes" value="localhost"/>
             <property name="kundera.port" value="9042"/>
-            <property name="kundera.keyspace" value="java_play_ut"/>
+            <property name="kundera.keyspace" value="java_play_test"/>
             <property name="kundera.dialect" value="cassandra"/>
             <property name="kundera.show.query" value="true" />
             <property name="kundera.client.lookup.class" value="com.impetus.kundera.client.cassandra.dsdriver.DSClientFactory" />
 
-
             <property name="kundera.ddl.auto.prepare" value="create-drop" />
-
         </properties>
     </persistence-unit>
 </persistence>

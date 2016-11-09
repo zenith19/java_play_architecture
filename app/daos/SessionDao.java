@@ -3,11 +3,14 @@ package daos;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import helpers.NoTxJPA;
+import models.Product;
 import models.Session;
 import models.User;
 
 import javax.persistence.EntityManager;
-
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Arrays;
 
 /**
  * Created by zenith on 10/26/16.

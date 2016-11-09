@@ -8,7 +8,11 @@ import helpers.NoTxJPA;
 import models.QUser;
 import models.User;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,7 +22,6 @@ import java.util.List;
 // TODO: For development easyly, I write esample of GenericDao example.
 public class UserDao implements GenericDao<User, String> {
     private final NoTxJPA jpa;
-
 
     @Inject
     public UserDao(NoTxJPA jpa) {
@@ -30,6 +33,14 @@ public class UserDao implements GenericDao<User, String> {
         return jpa.currentEm();
     }
 
+    @Override
+    public Class<User> getEntityType() {
+        ParameterizedType entityType = Arrays.stream(UserDao.class.getGenericInterfaces())
+                .map(t -> ((ParameterizedType)t))
+                .filter(t -> t.getRawType().equals(GenericDao.class)).findFirst().get();
+        Type t = entityType.getActualTypeArguments()[0];
+        return (Class<User>) t;
+    }
 
     public List<User> getUserGroupByBranch() {
         EntityManager entityManager = jpa.currentEm();

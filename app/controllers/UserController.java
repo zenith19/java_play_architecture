@@ -36,13 +36,7 @@ public class UserController extends Controller {
             JsonNode jsonError = formUser.errorsAsJson();
             return Results.badRequest(jsonError);
         }
-        User user = null;
-        try{
-            user = userService.create(formUser.get());
-        }catch (Exception e){
-            Json.toJson(e.getMessage());
-        }
-        return ok(Json.toJson(user));
+        return ok(Json.toJson(userService.create(formUser.get())));
     }
 
     @Security.Authenticated(NeedLogin.class)

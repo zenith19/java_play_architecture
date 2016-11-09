@@ -1,15 +1,13 @@
 package models;
 
-import org.hibernate.validator.constraints.Length;
-import play.data.validation.Constraints;
-import play.data.validation.Constraints.*;
+import play.data.validation.Constraints.Email;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.DefaultValue;
+
 
 /**
  * Created by rownak on 10/25/16.
@@ -18,7 +16,6 @@ import javax.ws.rs.DefaultValue;
 @Table(name = "users")
 public class User {
     // TODO : if model is not every controller input/output, valiation annotation doesn't need.
-
     @Id
     @Email
     private String email;

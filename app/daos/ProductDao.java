@@ -5,7 +5,6 @@ import com.google.inject.Singleton;
 import helpers.NoTxJPA;
 import models.Product;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -50,5 +49,4 @@ public class ProductDao implements GenericDao<Product, String>{
 
         return selectAll();
     }
-
 }

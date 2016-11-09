@@ -3,6 +3,7 @@ package services;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import daos.ProductDao;
+import exceptions.ApplicationException;
 import helpers.NoTxJPA;
 import models.Product;
 import play.i18n.MessagesApi;
@@ -73,13 +74,13 @@ public class ProductService {
     }
 
     //TODO: JsonNode doesn't use in Service.
-    public Product get(String productId) throws IllegalStateException {
+    public Product get(String productId) {
         play.i18n.Lang lang = Http.Context.current().lang();
 
         return jpa.withDefaultEm(() -> {
             Product product = productDao.getProductById(productId);
             if (product == null) {
-                throw new IllegalStateException(messagesApi.get(lang, "productNotFound"));
+                throw new ApplicationException(messagesApi.get(lang, "productNotFound"));
             }
 
             return product;

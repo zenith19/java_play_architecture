@@ -8,7 +8,6 @@ import helpers.NoTxJPA;
 import models.QUser;
 import models.User;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

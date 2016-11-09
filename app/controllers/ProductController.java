@@ -4,7 +4,10 @@ import anotations.Role;
 import authorization.NeedLogin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
+import dtos.ProductInput;
+import dtos.ProductOutput;
 import models.Product;
+import org.modelmapper.ModelMapper;
 import play.data.Form;
 import play.data.FormFactory;
 import play.i18n.MessagesApi;
@@ -34,33 +37,37 @@ public class ProductController extends Controller {
     private final MessagesApi messagesApi;
     private final ProductService productService;
     private final FormFactory formFactory;
+    private final ModelMapper modelMapper;
 
     /*
      TODO:; AsyncResult only use slow process, Return Normal Result  in generally case. Because, Async and CompletableStage is difficult.
      TODO : please use constructor injection.
     */
     @Inject
-    public ProductController(ProductService productService, MessagesApi messagesApi, FormFactory formFactory) {
+    public ProductController(ProductService productService, MessagesApi messagesApi, FormFactory formFactory, ModelMapper modelMapper) {
         this.productService = productService;
         this.messagesApi = messagesApi;
         this.formFactory = formFactory;
+        this.modelMapper = modelMapper;
     }
 
     // TODO; return Result, not but CompletionStage<Result>;
     public Result create() {
-        Form<Product> productForm = formFactory.form(Product.class).bindFromRequest();
+        play.i18n.Lang lang = Http.Context.current().lang();
+        Form<ProductInput> productForm = formFactory.form(ProductInput.class).bindFromRequest();
 
         // OK, JSON validation is performed in controller.
         if (productForm.hasErrors()) {
             JsonNode jsonError = productForm.errorsAsJson();
             //TODO: In validation error, return response as badRequest.
-
             return badRequest(jsonError);
         }
         // TODO: but, service input and output should be DTO or Entity or Javabeans.
-        Product product = productForm.get();
-
-        return ok(Json.toJson(productService.create(product)));
+        Product product = modelMapper.map(productForm.get(), Product.class);
+        Product createdProduct = productService.create(product);
+        ProductOutput productOutput = modelMapper.map(createdProduct, ProductOutput.class);
+        productOutput.setMessage(messagesApi.get(lang(), "input.created"));
+        return ok(Json.toJson(productOutput));
         /*
          TODO: please doesn't use Exception. use appropriate exception.
          TODO: And, if RuntimeException raises here, handle RuntimeException in ErrorHandler, not controller.
@@ -71,15 +78,15 @@ public class ProductController extends Controller {
     public Result getAll() {
         // TODO: please fix service input/output from json to Java object.
         // TODO: doesn't use finally instead of catch. It causes invalid http response.
-
         return ok(Json.toJson(productService.getAll()));
     }
 
     // TODO; return Result, not but CompletionStage<Result>;
     public Result get(String productId) {
         // TODO: please fix service input/output from json to Java object.
-
-        return ok(Json.toJson(productService.get(productId)));
+        Product product = productService.get(productId);
+        ProductOutput productOutput = modelMapper.map(product, ProductOutput.class);
+        return ok(Json.toJson(productOutput));
     }
 
     // TODO; return Result, not but CompletionStage<Result>;

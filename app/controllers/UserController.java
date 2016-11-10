@@ -4,7 +4,10 @@ import authorization.NeedLogin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import dtos.UserCreated;
+import dtos.UserForm;
 import models.User;
+import org.modelmapper.ModelMapper;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -23,20 +26,32 @@ import java.util.List;
 public class UserController extends Controller {
     private final UserService userService;
     private final FormFactory formFactory;
+    private final ModelMapper mapper;
 
     @Inject
-    public UserController(UserService userService, FormFactory formFactory) {
+    public UserController(UserService userService, FormFactory formFactory, ModelMapper mapper) {
         this.userService = userService;
         this.formFactory = formFactory;
+        this.mapper = mapper;
     }
 
     public Result create() {
-        Form<User> formUser = formFactory.form(User.class).bindFromRequest();
+        // TODO: Note. It depends on your development policy whether Controller's Input/Output is DTO only or allowing model.
+        // TODO: bind form with DTO
+        Form<UserForm> formUser = formFactory.form(UserForm.class).bindFromRequest();
         if (formUser.hasErrors()) {
             JsonNode jsonError = formUser.errorsAsJson();
             return Results.badRequest(jsonError);
         }
-        return ok(Json.toJson(userService.create(formUser.get())));
+
+        // TODO: then Form to Model by mapper.
+        // TODO: mapper copy same name filed between difference class's object by default.
+        User user = mapper.map(formUser.get(), User.class);
+        User serviceResult = userService.create(user);
+        UserCreated result =  mapper.map(serviceResult, UserCreated.class);
+        //TODO : you can use custom attribute  when output is DTO.
+        result.setMessage("User created.");
+        return ok(Json.toJson(result));
     }
 
     @Security.Authenticated(NeedLogin.class)

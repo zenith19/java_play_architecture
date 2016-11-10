@@ -1,10 +1,13 @@
 import com.datastax.driver.core.Cluster;
 import com.google.inject.AbstractModule;
+import com.google.inject.Provider;
 import com.google.inject.matcher.Matchers;
 import de.leanovate.play.cassandra.evolutions.CassandraEndpointConfig;
 import helpers.NoTxJPA;
 import helpers.SupplyEM;
 import helpers.SupplyEMInterceptor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.guice.GuiceIntegration;
 import play.db.jpa.JPAApi;
 import scala.Function0;
 import scala.collection.Seq;
@@ -48,6 +51,13 @@ public class Module extends AbstractModule {
         bind(PasswordEncrypter.class).to(BcryptPasswordEncrypter.class);
 
         bind(CassandraEndpointConfig.class).to(LocalEndpointsConfig.class);
+
+        // config model mapper: http://modelmapper.org/
+        ModelMapper mapper = new ModelMapper();
+        // if you want to custom mapper setting, it is here.
+        //mapper....
+        bind(ModelMapper.class).toInstance(mapper);
+
     }
 
     /** TODO; coning for cassandra evolutions.

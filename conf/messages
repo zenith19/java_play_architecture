@@ -1,6 +1,8 @@
 invalidUser      = Invalid User
 deleteSuccess  = Successfully deleted
 sessionInvalid = Invalid Email or Password
+updateSuccess  = Successfully Updated
+sessionInvalid = Invalid Username or Password
 logoutError    = Invalid Email or AuthToken
 logout         = Successfully Logged Out
 productNotFound = Product not found
@@ -22,3 +24,6 @@ input.invalidEmail = Invalid Email format
 input.email = Please enter Email
 input.authToken = Please enter Auth Token
 input.created = Successfully created
+
+# successful login and logout message
+successfulLogin = Login Successfully

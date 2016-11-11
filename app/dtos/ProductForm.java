@@ -1,22 +1,22 @@
-package models;
+package dtos;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import play.data.validation.Constraints;
 
 /**
- * Created by rownak on 10/25/16.
+ * Created by zenith on 11/11/16.
  */
-@Entity
-@Table(name = "products")
-public class Product {
-    @Id
-    @Column(name = "product_id")
+public class ProductForm {
+
     private String productId;
-    @Column(name = "product_name")
+
+    @Constraints.Required(message = "input.productName")
+    @Constraints.MinLength(2)
+    @Constraints.MaxLength(50)
     private String productName;
-    //TODO: Note.
+
+    @Constraints.Required(message = "input.price")
+    @Constraints.Min(1)
+    @Constraints.Max(9999999)
     private Integer price;
 
     public String getProductId() {

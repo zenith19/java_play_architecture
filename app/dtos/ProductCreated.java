@@ -1,26 +1,24 @@
-package models;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+package dtos;
 
 /**
- * Created by rownak on 10/25/16.
+ * Created by zenith on 11/11/16.
  */
-@Entity
-@Table(name = "products")
-public class Product {
-    @Id
-    @Column(name = "product_id")
+public class ProductCreated {
     private String productId;
-    @Column(name = "product_name")
     private String productName;
-    //TODO: Note.
     private Integer price;
+    private String message;
 
     public String getProductId() {
         return productId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public void setProductId(String productId) {

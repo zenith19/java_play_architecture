@@ -16,7 +16,7 @@ import java.util.Arrays;
  * Created by zenith on 10/26/16.
  */
 @Singleton
-public class SessionDao {
+public class SessionDao implements GenericDao<Session, String> {
     private final NoTxJPA jpa;
 
     @Inject
@@ -24,16 +24,18 @@ public class SessionDao {
         this.jpa = jpa;
     }
 
-    public String login(Session session) {
-        EntityManager entityManager = jpa.currentEm();
-        entityManager.persist(session);
-
-        return session.getAuthToken();
+    @Override
+    public EntityManager getEm() {
+        return jpa.currentEm();
     }
 
-    public void logout(Session session) {
-        EntityManager entityManager = jpa.currentEm();
-        entityManager.remove(session);
+    @Override
+    public Class<Session> getEntityType() {
+        ParameterizedType entityType = Arrays.stream(SessionDao.class.getGenericInterfaces())
+                .map(t -> ((ParameterizedType)t))
+                .filter(t -> t.getRawType().equals(GenericDao.class)).findFirst().get();
+        Type t = entityType.getActualTypeArguments()[0];
+        return (Class<Session>) t;
     }
 
     public User getUser(String email) {

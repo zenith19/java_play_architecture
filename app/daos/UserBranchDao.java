@@ -6,13 +6,16 @@ import helpers.NoTxJPA;
 import models.UserBranch;
 
 import javax.persistence.EntityManager;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by rownak on 11/4/16.
  */
 @Singleton
-public class UserBranchDao {
+public class UserBranchDao implements GenericDao<UserBranch, String> {
     private final NoTxJPA jpa;
 
     @Inject
@@ -20,18 +23,18 @@ public class UserBranchDao {
         this.jpa = jpa;
     }
 
-    public UserBranch getUserBranch(String branch) {
-        EntityManager entityManager = jpa.currentEm();
-        UserBranch userBranch = entityManager.find(UserBranch.class, branch);
-
-        return userBranch;
+    @Override
+    public EntityManager getEm() {
+        return jpa.currentEm();
     }
 
-    public UserBranch create(UserBranch userBranch) {
-        EntityManager entityManager = jpa.currentEm();
-        entityManager.persist(userBranch);
-
-        return userBranch;
+    @Override
+    public Class<UserBranch> getEntityType() {
+        ParameterizedType entityType = Arrays.stream(UserBranchDao.class.getGenericInterfaces())
+                .map(t -> ((ParameterizedType)t))
+                .filter(t -> t.getRawType().equals(GenericDao.class)).findFirst().get();
+        Type t = entityType.getActualTypeArguments()[0];
+        return (Class<UserBranch>) t;
     }
 
     public List<UserBranch> getBranchWithCondition() {

@@ -1,6 +1,6 @@
 invalidUser      = Invalid User
 deleteSuccess  = Successfully deleted
-sessionInvalid = Invalid Username or Password
+sessionInvalid = Invalid Email or Password
 logoutError    = Invalid Email or AuthToken
 logout         = Successfully Logged Out
 productNotFound = Product not found
@@ -9,9 +9,16 @@ specialCharacter = Special Character Found
 
 # @Constraints.xxxx default messages can override here.
 error.required = Please enter !!
-error.minLength = input grater than {0}
+error.minLength = should be greater than {0}
+error.maxLength = should be less than {0}
 
 # custom valition message.
-input.price = Please Enter prirce.
+input.price = Please Enter price.
 input.productName = Please Enter ProductName.
 input.specialCharacter = Special Character found.
+input.password = Please enter password
+input.name = Please enter Name
+input.invalidEmail = Invalid Email format
+input.email = Please enter Email
+input.authToken = Please enter Auth Token
+input.created = Successfully created

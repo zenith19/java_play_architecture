@@ -1,12 +1,6 @@
 package daos;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
 import javax.persistence.EntityManager;
-import java.lang.reflect.Type;
-import java.lang.reflect.ParameterizedType;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,8 +9,6 @@ import java.util.List;
  * This supplies basic CRUD operations.
  */
 public interface GenericDao<Entity,ID> {
-
-
     EntityManager getEm();
 
     @SuppressWarnings("unchecked")

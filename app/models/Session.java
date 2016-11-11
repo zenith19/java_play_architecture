@@ -1,5 +1,6 @@
 package models;
 
+import org.hibernate.validator.constraints.NotBlank;
 import play.data.validation.Constraints;
 
 import javax.persistence.Column;
@@ -18,10 +19,10 @@ import javax.ws.rs.Encoded;
 public class Session {
     @Id
     @Column(name = "auth_token")
-    @Constraints.Required(message = "AuthToken can't be blank")
+    @Constraints.Required(message = "input.authToken")
     private String authToken;
-    @NotNull
-    @Constraints.Required(message = "Email can't be blank")
+    @NotBlank
+    @Constraints.Required(message = "input.email")
     private String email;
 
     public String getAuthToken() { return authToken; }

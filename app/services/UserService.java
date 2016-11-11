@@ -7,7 +7,6 @@ import daos.UserDao;
 import exceptions.ApplicationException;
 import helpers.SupplyEM;
 import models.User;
-import models.UserBranch;
 
 import java.util.List;
 
@@ -65,28 +64,9 @@ public class UserService {
             // TODO ; This is better, because, service doesn't use messageApi and Lang.
             throw new ApplicationException("userNotFound");
         }
-
-
-        if (!formUser.getBranch().equals(user.getBranch())) {
-            UserBranch userBranch = new UserBranch();
-            userBranch.setBranch(formUser.getBranch());
-
-            UserBranch newBranch = userBranchDao.getUserBranch(formUser.getBranch());
-            Integer userNo = (newBranch == null) ? 0: newBranch.getNoOfUser();
-            if (user.getBranch() == null) {
-                userBranch.setNoOfUser(userNo.intValue() + 1);
-            }
-            else {
-                userBranch.setNoOfUser(userNo.intValue() + 1);
-                UserBranch existedbranch = userBranchDao.getUserBranch(user.getBranch());
-                existedbranch.setNoOfUser(existedbranch.getNoOfUser().intValue() - 1);
-                userBranchDao.create(existedbranch);
-            }
-            userBranchDao.create(userBranch);
-        }
-
+        
         user.setName(formUser.getName().trim());
-        if (!formUser.getBranch().trim().equals(null)) {
+        if (formUser.getBranch().trim() != null) {
             user.setBranch(formUser.getBranch().trim());
         }
         if (formUser.getPassword() != null){

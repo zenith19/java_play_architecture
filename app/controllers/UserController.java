@@ -40,8 +40,7 @@ public class UserController extends Controller {
         // TODO: bind form with DTO
         Form<UserForm> formUser = formFactory.form(UserForm.class).bindFromRequest();
         if (formUser.hasErrors()) {
-            JsonNode jsonError = formUser.errorsAsJson();
-            return Results.badRequest(jsonError);
+            return Results.badRequest(formUser.errorsAsJson());
         }
 
         // TODO: then Form to Model by mapper.

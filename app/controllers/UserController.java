@@ -42,7 +42,6 @@ public class UserController extends Controller {
         if (formUser.hasErrors()) {
             return Results.badRequest(formUser.errorsAsJson());
         }
-
         // TODO: then Form to Model by mapper.
         // TODO: mapper copy same name filed between difference class's object by default.
         User user = mapper.map(formUser.get(), User.class);

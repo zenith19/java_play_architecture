@@ -25,11 +25,11 @@ public class SessionService {
         this.sessionDao = sessionDao;
         this.encrypter = encrypter;
     }
-    // TODO : base64 is not encryption. Shouldn't use.
 
-    public JsonNode login(User user) {
+    // TODO : base64 is not encryption. Shouldn't use.
+    public Session login(User user) {
         User registeredUser = sessionDao.getUser(user.getEmail());
-        // TODO : check password via encryptor. Note, that registeredUser.getPassword() is encrypterdPassword.
+        // TODO : check password via encryptors. Note, that registeredUser.getPassword() is encryptedPassword.
         if (registeredUser == null || !encrypter.checkPassword(user.getPassword(), registeredUser.getPassword())) {
             return null;
         }
@@ -39,19 +39,19 @@ public class SessionService {
         Session session = new Session();
         session.setEmail(user.getEmail());
         session.setAuthToken(authToken);
-        sessionDao.login(session);
+        sessionDao.create(session);
 
-        return Json.toJson(session.getAuthToken());
+        return session;
     }
 
-    public void logout(String authToken) throws Exception {
+    public void logout(String authToken) {
         Session session = sessionDao.getSession(authToken);
         if (session == null) {
             // TODO : this should common exception (e.g, ApplicationException)that has messageCode.
             // TODO ; This is better, because, service doesn't use messageApi and Lang.
             throw new ApplicationException("userNotFound");
         }
-        sessionDao.logout(session);
+        sessionDao.delete(session);
     }
 
     public Session authenticate(String authToken) {

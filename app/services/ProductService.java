@@ -47,13 +47,13 @@ public class ProductService {
         return jpa.withDefaultEm(() -> productDao.create(product));
     }
 
-    public Product update(Product formProductData, String productId) throws IllegalStateException {
+    public Product update(Product formProductData, String productId) {
         play.i18n.Lang lang = Http.Context.current().lang();
         return jpa.withDefaultEm(() -> {
             Product product = productDao.getProductById(productId);
             if (product == null) {
                 // TODO: Doesn't use Exception, You should make or use Appropriate Exception;
-                throw new IllegalStateException(messagesApi.get(lang, "productNotFound"));
+                throw new ApplicationException(messagesApi.get(lang, "productNotFound"));
             }
             product.setProductName(formProductData.getProductName().trim());
             product.setPrice(formProductData.getPrice());
@@ -62,12 +62,12 @@ public class ProductService {
         });
     }
 
-    public void delete(String productId) throws IllegalStateException {
+    public void delete(String productId) {
         play.i18n.Lang lang = Http.Context.current().lang();
         jpa.withDefaultEm(() -> {
             Product product = productDao.getProductById(productId);
             if (product == null) {
-                throw new IllegalStateException(messagesApi.get(lang, "productNotFound"));
+                throw new ApplicationException(messagesApi.get(lang, "productNotFound"));
             }
             productDao.delete(product);
         });

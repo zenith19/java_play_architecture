@@ -2,8 +2,6 @@ package dtos;
 
 import org.hibernate.validator.constraints.Length;
 import play.data.validation.Constraints;
-
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 /**

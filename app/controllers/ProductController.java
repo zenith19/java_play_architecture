@@ -4,6 +4,8 @@ import anotations.Role;
 import authorization.NeedLogin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
+import dtos.ProductCreated;
+import dtos.ProductForm;
 import dtos.ProductInput;
 import dtos.ProductOutput;
 import models.Product;
@@ -28,8 +30,6 @@ public class ProductController extends Controller {
      TODO: I recommend to define validate method in Form object, because this is play's standard and less code in controller.
      TODO: If you don't want to define validate method in model class, You can make DTO(Data Transfer Object).
      TODO: DTO is input/output object in controller, and this define validation annotations and validate method.
-    */
-    /*
      TODO: In controller, DTO  binds Form and validation, then make model from DTO and call service (service input is model),
            then, make output DTO from service method return value, and make response json from output dto. In this case,
            DTO has only validation definition, and model has only Entity definition.
@@ -102,14 +102,17 @@ public class ProductController extends Controller {
 
     // TODO; return Result, not but CompletionStage<Result>; custom thread pool is a just sample.
     public Result update(String productId) {
-        Form<Product> productForm = formFactory.form(Product.class).bindFromRequest();
+        play.i18n.Lang lang = Http.Context.current().lang();
+        Form<ProductForm> productForm = formFactory.form(ProductForm.class).bindFromRequest();
         if (productForm.hasErrors()) {
             JsonNode jsonError = productForm.errorsAsJson();
-
             return ok(jsonError);
         }
-        Product product = productForm.get();
+        Product product = modelMapper.map(productForm.get(), Product.class);
+        Product serviceResult = productService.update(product, productId);
+        ProductCreated productCreated =  modelMapper.map(serviceResult, ProductCreated.class);
+        productCreated.setMessage(messagesApi.get(lang, "updateSuccess"));
 
-        return ok(Json.toJson(productService.update(product, productId)));
+        return ok(Json.toJson(productCreated));
     }
 }

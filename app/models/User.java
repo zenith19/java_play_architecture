@@ -4,10 +4,12 @@ import org.hibernate.validator.constraints.Length;
 import play.data.validation.Constraints;
 import play.data.validation.Constraints.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.DefaultValue;
 
 /**
  * Created by rownak on 10/25/16.
@@ -27,6 +29,10 @@ public class User {
     @Required(message = "Password minimum length 6")
     private String password;
     private String branch;
+
+    @DefaultValue("false")
+    @Column(name = "is_admin")
+    private Boolean isAdmin;
 
     public String getEmail() {
         return email;
@@ -55,4 +61,8 @@ public class User {
     public String getBranch() {return branch;}
 
     public void setBranch(String branch) {this.branch = branch;}
+
+    public Boolean getAdmin() {return isAdmin;}
+
+    public void setAdmin(Boolean admin) {isAdmin = admin;}
 }

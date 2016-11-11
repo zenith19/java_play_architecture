@@ -1,5 +1,6 @@
 package controllers;
 
+import anotations.Role;
 import authorization.NeedLogin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
@@ -82,13 +83,14 @@ public class ProductController extends Controller {
     }
 
     // TODO; return Result, not but CompletionStage<Result>;
+    @Role
     public Result delete(String productId) {
         //get lang from http req
         play.i18n.Lang lang = Http.Context.current().lang();
         // TODO: please fix service input/output from json to Java object.
         productService.delete(productId);
 
-        return ok(messagesApi.get(lang, "deleteSuccess"));
+        return ok(Json.toJson(messagesApi.get(lang, "deleteSuccess")));
     }
 
     // TODO; return Result, not but CompletionStage<Result>; custom thread pool is a just sample.

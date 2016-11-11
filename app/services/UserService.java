@@ -8,10 +8,7 @@ import exceptions.ApplicationException;
 import helpers.SupplyEM;
 import models.User;
 import models.UserBranch;
-import play.i18n.MessagesApi;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.List;
 
 
@@ -55,6 +52,8 @@ public class UserService {
     public List<User> getUserGroupByBranch() {
            return userDao.getUserGroupByBranch();
     }
+
+    public User getUser(String email) {return userDao.selectOne(email);}
 
     public User update(User formUser) {
 

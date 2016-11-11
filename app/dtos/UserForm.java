@@ -1,28 +1,26 @@
-package models;
+package dtos;
 
 import org.hibernate.validator.constraints.Length;
 import play.data.validation.Constraints;
-import play.data.validation.Constraints.*;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by rownak on 10/25/16.
+ * example of User Input Dto. It's able to convert json.
  */
-@Entity
-@Table(name = "users")
-public class User {
-    // TODO : if model is not every controller input/output, valiation annotation doesn't need.
+public class UserForm {
+    // This is not Entity, so that this has only validation.
 
-    @Id
-    @Email
+    @Constraints.Email
+    @Constraints.Required(message = "Invalid Email format")
     private String email;
-
+    @NotNull
+    @Constraints.Required(message = "Name can't be blank")
     private String name;
-
+    @NotNull
+    @Length(min = 6)
+    @Constraints.Required(message = "Password minimum length 6")
     private String password;
     private String branch;
 

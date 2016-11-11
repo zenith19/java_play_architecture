@@ -22,7 +22,9 @@ libraryDependencies ++= Seq(
   filters,
   "com.mysema.querydsl" % "querydsl-jpa" % "3.7.4",
   "com.mysema.querydsl" % "querydsl-apt" % "3.7.4",
-  "de.leanovate" %% "play-cassandra-evolutions" % "2.5.0" //cassandra-evlolution
+  "de.leanovate" %% "play-cassandra-evolutions" % "2.5.0", //cassandra-evlolution,
+  "org.modelmapper" % "modelmapper" % "0.7.7", // for object mapping
+  "org.modelmapper.extensions" % "modelmapper-guice" % "0.7.7"
 )
 
 routesGenerator := InjectedRoutesGenerator

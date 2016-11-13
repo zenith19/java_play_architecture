@@ -9,6 +9,8 @@ import helpers.SupplyEM;
 import models.User;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -35,10 +37,18 @@ public class UserService {
 
         return encrypter.encrypt(password);
     }
-
-    public User create(User inputUser) {
+    // TODO : note, asAdmin argument is test purpose.
+    public User create(User inputUser, boolean asAdmin) {
         String password = inputUser.getPassword();
         inputUser.setPassword(encryptPassword(inputUser.getPassword()));
+
+        if (asAdmin) {
+            inputUser.setRoles(Stream.of("admin","default").collect(Collectors.toSet()));
+        } else {
+
+            inputUser.setRoles(Stream.of("default").collect(Collectors.toSet()));
+        }
+
         User user = userDao.create(inputUser);
         // TODO : Shouldn't return password.
         // user.setPassword(password);

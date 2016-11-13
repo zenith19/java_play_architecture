@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.ws.rs.DefaultValue;
+import java.util.Set;
 
 
 /**
@@ -25,9 +26,12 @@ public class User {
     private String password;
     private String branch;
 
-    @DefaultValue("false")
-    @Column(name = "is_admin")
-    private Boolean isAdmin;
+    // @DefaultValue("false") TODO: this annotation is not JPA's annotation. cannot use.
+    //@Column(name = "is_admin")
+    //private Boolean isAdmin;
+    // TODO : I recommend to have concrete role names as collection. Kundera can define collection as column.
+    @Column(name = "roles")
+    private Set<String> roles;
 
     public String getEmail() {
         return email;
@@ -56,8 +60,17 @@ public class User {
     public String getBranch() {return branch;}
 
     public void setBranch(String branch) {this.branch = branch;}
-
+/*
     public Boolean getAdmin() {return isAdmin;}
 
     public void setAdmin(Boolean admin) {isAdmin = admin;}
+    */
+
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
+    }
 }

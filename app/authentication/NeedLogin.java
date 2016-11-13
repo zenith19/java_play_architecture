@@ -1,4 +1,4 @@
-package authorization;
+package authentication;
 
 import com.google.inject.Inject;
 import models.Session;
@@ -10,7 +10,7 @@ import services.SessionService;
 /**
  * Created by rownak on 10/26/16.
  */
-
+//TODO: rename package.
 public class NeedLogin extends Security.Authenticator {
     private SessionService sessionService;
     private final MessagesApi messagesApi;

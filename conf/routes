@@ -9,6 +9,8 @@ DELETE  /products/:id               controllers.ProductController.delete(id: Str
 GET     /products/:id               controllers.ProductController.get(id: String)
 GET     /products                   controllers.ProductController.getAll
 
+
+POST    /admin                      controllers.UserController.createAdmin
 POST    /users                      controllers.UserController.create
 PUT     /users                      controllers.UserController.update
 GET     /users                      controllers.UserController.getUserGroupByBranch

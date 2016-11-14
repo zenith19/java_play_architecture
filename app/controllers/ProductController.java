@@ -1,7 +1,7 @@
 package controllers;
 
-import anotations.Role;
-import authorization.NeedLogin;
+import anotations.HasRoles;
+import authentication.NeedLogin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import dtos.ProductCreated;
@@ -82,6 +82,7 @@ public class ProductController extends Controller {
     }
 
     // TODO; return Result, not but CompletionStage<Result>;
+    @HasRoles({"admin", "default"})
     public Result get(String productId) {
         // TODO: please fix service input/output from json to Java object.
         Product product = productService.get(productId);
@@ -90,7 +91,7 @@ public class ProductController extends Controller {
     }
 
     // TODO; return Result, not but CompletionStage<Result>;
-    @Role
+    @HasRoles
     public Result delete(String productId) {
         //get lang from http req
         play.i18n.Lang lang = Http.Context.current().lang();
